@@ -1,9 +1,15 @@
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author BenGarde
@@ -26,6 +32,16 @@ public class login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
+        jLayeredPane2 = new javax.swing.JLayeredPane();
+        jLabel6 = new javax.swing.JLabel();
+        user = new javax.swing.JTextField();
+        spwd = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        conpwd = new javax.swing.JPasswordField();
+        jLabel9 = new javax.swing.JLabel();
+        submitBTN = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel1 = new javax.swing.JLabel();
         uname = new javax.swing.JTextField();
@@ -35,6 +51,107 @@ public class login extends javax.swing.JFrame {
         pwd = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+
+        jDialog1.setSize(new java.awt.Dimension(350, 380));
+
+        jLayeredPane2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel6.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setText("Sign In");
+        jLabel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        user.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+
+        spwd.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
+        jLabel7.setText("Username");
+
+        jLabel8.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
+        jLabel8.setText("password");
+
+        conpwd.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+
+        jLabel9.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
+        jLabel9.setText("Confirm password");
+
+        submitBTN.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
+        submitBTN.setText("Submit");
+        submitBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitBTNActionPerformed(evt);
+            }
+        });
+
+        jLayeredPane2.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(user, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(spwd, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(conpwd, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(submitBTN, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(jLayeredPane2);
+        jLayeredPane2.setLayout(jLayeredPane2Layout);
+        jLayeredPane2Layout.setHorizontalGroup(
+            jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(user)
+                    .addComponent(spwd)
+                    .addComponent(conpwd)
+                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                        .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel9))
+                        .addGap(0, 159, Short.MAX_VALUE))
+                    .addComponent(submitBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jLayeredPane2Layout.setVerticalGroup(
+            jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(spwd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(conpwd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
+                .addGap(18, 18, 18)
+                .addComponent(submitBTN)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,7 +160,7 @@ public class login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
         jLabel1.setText("Username: ");
 
-        uname.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
+        uname.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
         jLabel2.setText("Password: ");
@@ -55,7 +172,7 @@ public class login extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("KING BEN GUN's STORE");
 
-        pwd.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
+        pwd.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
 
         jButton1.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
         jButton1.setText("Cancel");
@@ -73,6 +190,16 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 204));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("SignUp");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+
         jLayeredPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(uname, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -81,6 +208,7 @@ public class login extends javax.swing.JFrame {
         jLayeredPane1.setLayer(pwd, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -101,7 +229,8 @@ public class login extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -125,8 +254,9 @@ public class login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(77, Short.MAX_VALUE))
+                    .addComponent(jButton2)
+                    .addComponent(jLabel5))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -140,7 +270,7 @@ public class login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLayeredPane1)
                 .addContainerGap())
@@ -151,7 +281,7 @@ public class login extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        new KBGS_MainPage().setVisible(true);
+        login();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -159,6 +289,16 @@ public class login extends javax.swing.JFrame {
         uname.setText("");
         pwd.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void submitBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBTNActionPerformed
+        // TODO add your handling code here:
+        saveacc();
+    }//GEN-LAST:event_submitBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,14 +336,129 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPasswordField conpwd;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JPasswordField pwd;
+    private javax.swing.JPasswordField spwd;
+    private javax.swing.JButton submitBTN;
     private javax.swing.JTextField uname;
+    private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
+
+//x-------------------------------------------------------------------------------------------x//
+    void login() {
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost/kbgs?user=root&password=";
+            Connection con = DriverManager.getConnection(url);
+
+            Statement stmt = null;
+            ResultSet rs = null;
+            String Sql = "select * from account where Username = '" + uname.getText() + "' and Password = md5('" + pwd.getText() + "')";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(Sql);
+
+            if (rs.next()) {
+
+                if (uname.getText().equals(rs.getString("Username")) || pwd.getText().equals("Password")) {
+                    setVisible(false);
+                    new KBGS_MainPage().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Incorrect Username and Password!");
+                }
+
+            } else if (uname.getText().equals("")) {
+
+                if (pwd.getText().equals("")) {
+                    JOptionPane.showMessageDialog(rootPane, "Enter your username and password!");
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Enter your username!");
+                }
+
+            } else if (pwd.getText().equals("")) {
+
+                if (uname.getText().equals("")) {
+                    JOptionPane.showMessageDialog(rootPane, "Enter your username and password!");
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Enter your password!");
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Incorrect Username and Password!");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+//x-------------------------------------------------------------------------------------------x//
+
+    void saveacc() {
+
+        if (user.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Enter Username!");
+        } else if (spwd.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Enter your Password!");
+        } else {
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                String url = "jdbc:mysql://localhost/kbgs?user=root&password=";
+                Connection con = DriverManager.getConnection(url);
+
+                Statement stmt = null;
+                ResultSet rs = null;
+                String sql = "select * from account where Username = '" + user.getText() + "'";
+                stmt = con.createStatement();
+                rs = stmt.executeQuery(sql);
+
+                if (rs.next()) {
+                    if (user.getText().equals(rs.getString("Username"))) {
+                        JOptionPane.showMessageDialog(null, "Username Already Exist!", null, JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+
+                    }
+
+                } else {
+
+                    if (conpwd.getText().contentEquals(spwd.getText())) {
+                        Statement stmt1 = null;
+                        String sql1 = "INSERT INTO `kbgs`.`account` "
+                                + "(`Username`, `Password`)"
+                                + " VALUES "
+                                + "('" + user.getText() + "', md5('" + spwd.getText() + "')) ;";
+                        stmt1 = con.createStatement();
+                        stmt1.executeUpdate(sql1);
+
+                        JOptionPane.showMessageDialog(null, "New Account Saved! Try to login your new account");
+
+                        jDialog1.setVisible(false);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Password did not match!");
+                    }
+
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+            }
+        }
+    }
+//x-------------------------------------------------------------------------------------------x//    
 }
