@@ -28,7 +28,17 @@ public class KBGS_MainPage extends javax.swing.JFrame {
      */
     public KBGS_MainPage() {
         initComponents();
+        brcode.setEditable(false);
         refresh();
+    }
+
+    public void clear_ProdFields() {
+        ibarcode.setText(null);
+        brcode.setText(null);
+        desc.setText(null);
+        brnd.setText(null);
+        qty.setValue(0);
+        pr.setText(null);
     }
 
     final void refresh() {
@@ -94,8 +104,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btn_add = new javax.swing.JButton();
+        btn_delete = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -395,7 +405,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
         jTabbedPane1.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
 
-        jTable1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -438,20 +448,20 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton2.setFont(new java.awt.Font("Stencil", 0, 16)); // NOI18N
-        jButton2.setText("add");
-        jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton2.setPreferredSize(new java.awt.Dimension(70, 50));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_add.setFont(new java.awt.Font("Stencil", 0, 16)); // NOI18N
+        btn_add.setText("add");
+        btn_add.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_add.setPreferredSize(new java.awt.Dimension(70, 50));
+        btn_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_addActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Stencil", 0, 16)); // NOI18N
-        jButton3.setText("delete");
-        jButton3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jButton3.setPreferredSize(new java.awt.Dimension(70, 50));
+        btn_delete.setFont(new java.awt.Font("Stencil", 0, 16)); // NOI18N
+        btn_delete.setText("delete");
+        btn_delete.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btn_delete.setPreferredSize(new java.awt.Dimension(70, 50));
 
         jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
@@ -475,9 +485,9 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                     .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1119, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -492,8 +502,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)))
@@ -507,11 +517,11 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         // TODO add your handling code here:
         jFrame1.setVisible(true);
         jFrame1.setAlwaysOnTop(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_addActionPerformed
 
     private void manualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualActionPerformed
         // TODO add your handling code here:
@@ -529,6 +539,38 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         // TODO add your handling code here:
+        String prod_bar = brcode.getText();
+        
+        String prod_d = desc.getText();
+        String prod_b = brnd.getText();
+        int prod_qty = (int) qty.getValue();
+        String prod_p = pr.getText();
+
+        int x = apd.checkUsername(prod_bar);
+
+        //System.out.println(fn);//+"\n"+ln+"\n"+un+"\n"+pw
+        if (!"".equals(prod_d) && !"".equals(prod_b) && !"".equals(prod_qty) && !"".equals(prod_p)) {
+            
+                if (x == 0) {
+
+                    int x1 = apd.addProduct(prod_d, prod_b, prod_qty, prod_p);
+
+                    if (x1 == 1) {
+                        JOptionPane.showMessageDialog(jFrame1, "New Product Successfully added!");
+                        clear_ProdFields();
+                        refresh();
+                        jDialog1.setVisible(false);
+                        jFrame1.setVisible(false);
+                    }
+                    
+                } else {
+                    JOptionPane.showMessageDialog(jFrame1, "Barcode Already Exist! \n\n Do you want to update the product quantity?", "Warning", JOptionPane.YES_NO_OPTION);
+                }
+                
+        } else {
+            JOptionPane.showMessageDialog(jFrame1, "Please fill-out all the fields!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
 
     }//GEN-LAST:event_addActionPerformed
 
@@ -538,6 +580,9 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
     private void barSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barSubmitActionPerformed
         // TODO add your handling code here:
+        brcode.setText(ibarcode.getText());
+        ibarcode.setText(null);
+        jDialog1.setVisible(false);
     }//GEN-LAST:event_barSubmitActionPerformed
 
     /**
@@ -580,12 +625,12 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     private javax.swing.JButton barSubmit;
     private javax.swing.JTextField brcode;
     private javax.swing.JTextField brnd;
+    private javax.swing.JButton btn_add;
+    private javax.swing.JButton btn_delete;
     private javax.swing.JButton clear;
     private javax.swing.JTextField desc;
     private javax.swing.JTextField ibarcode;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
