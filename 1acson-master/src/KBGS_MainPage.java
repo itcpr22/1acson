@@ -371,6 +371,11 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -430,6 +435,11 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         jButton1.setText("close");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -462,6 +472,11 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         btn_delete.setText("delete");
         btn_delete.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btn_delete.setPreferredSize(new java.awt.Dimension(70, 50));
+        btn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_deleteActionPerformed(evt);
+            }
+        });
 
         jTextField1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
@@ -531,16 +546,18 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
     private void retrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrnActionPerformed
         // TODO add your handling code here:
+        jFrame1.setVisible(false);
     }//GEN-LAST:event_retrnActionPerformed
 
     private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
         // TODO add your handling code here:
+        clear_ProdFields();
     }//GEN-LAST:event_clearActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         // TODO add your handling code here:
         String prod_bar = brcode.getText();
-        
+
         String prod_d = desc.getText();
         String prod_b = brnd.getText();
         int prod_qty = (int) qty.getValue();
@@ -550,23 +567,23 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
         //System.out.println(fn);//+"\n"+ln+"\n"+un+"\n"+pw
         if (!"".equals(prod_d) && !"".equals(prod_b) && !"".equals(prod_qty) && !"".equals(prod_p)) {
-            
-                if (x == 0) {
 
-                    int x1 = apd.addProduct(prod_d, prod_b, prod_qty, prod_p);
+            if (x == 0) {
 
-                    if (x1 == 1) {
-                        JOptionPane.showMessageDialog(jFrame1, "New Product Successfully added!");
-                        clear_ProdFields();
-                        refresh();
-                        jDialog1.setVisible(false);
-                        jFrame1.setVisible(false);
-                    }
-                    
-                } else {
-                    JOptionPane.showMessageDialog(jFrame1, "Barcode Already Exist! \n\n Do you want to update the product quantity?", "Warning", JOptionPane.YES_NO_OPTION);
+                int x1 = apd.addProduct(prod_d, prod_b, prod_qty, prod_p);
+
+                if (x1 == 1) {
+                    JOptionPane.showMessageDialog(jFrame1, "New Product Successfully added!");
+                    clear_ProdFields();
+                    refresh();
+                    jDialog1.setVisible(false);
+                    jFrame1.setVisible(false);
                 }
-                
+
+            } else {
+                JOptionPane.showMessageDialog(jFrame1, "Barcode Already Exist! \n\n Do you want to update the product quantity?", "Warning", JOptionPane.YES_NO_OPTION);
+            }
+
         } else {
             JOptionPane.showMessageDialog(jFrame1, "Please fill-out all the fields!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -584,6 +601,66 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         ibarcode.setText(null);
         jDialog1.setVisible(false);
     }//GEN-LAST:event_barSubmitActionPerformed
+
+    private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
+        // TODO add your handling code here:
+        int table = jTable1.getSelectedRow();
+
+        if (table == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Please select table content first! ", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            Object xbarcode = jTable1.getValueAt(table, 0);
+            Object prodDesc = jTable1.getValueAt(table, 1);
+
+            int confirm_prod = JOptionPane.showConfirmDialog(rootPane, "This will delete the product " + prodDesc + "?"
+                    + "\nClick OK to continue", "Confirm Delete", JOptionPane.OK_CANCEL_OPTION);
+
+            if (confirm_prod == JOptionPane.YES_OPTION) {
+
+                int del_prod = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete " + prodDesc + "?",
+                        "Delete", JOptionPane.YES_NO_OPTION);
+
+                if (del_prod == JOptionPane.YES_OPTION) {
+
+                    int del = apd.deleteProduct(xbarcode);
+
+                    if (del == 1) {
+                        JOptionPane.showMessageDialog(rootPane, "Product " + prodDesc + " where deleted in database");
+                        refresh();
+                    }
+                }
+            }
+
+            //System.out.println(c);
+        }
+    }//GEN-LAST:event_btn_deleteActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Object loout;
+        loout = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to exit the program?", "CLOSE PROGRAM", JOptionPane.YES_NO_OPTION);
+        loout.toString();
+
+        if (loout.equals(0)) {
+            System.exit(0);
+        } else {
+            this.setVisible(true);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Object loout;
+        loout = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to exit the program?", "CLOSE PROGRAM", JOptionPane.YES_NO_OPTION);
+        loout.toString();
+
+        if (loout.equals(0)) {
+            System.exit(0);
+        } else {
+            this.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
