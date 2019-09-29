@@ -366,16 +366,6 @@ public class login extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost/kbgs?user=root&password=";
             Connection con = DriverManager.getConnection(url);
-            
-//                  protected String DBName = "kbgs";
-//                  protected String url = "jdbc:mysql://localhost/" + DBName;
-//                  protected String username = "root";
-//                  protected String password = "";
-
-//                  Class.forName("com.mysql.jdbc.Driver");
-//                  Connection conn = (Connection) DriverManager.getConnection(con.url, con.username, con.password);
-//                  String sql = "insert into tblreg values(null,?,?,?,md5(?),0)";
-//                  PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
 
             Statement stmt = null;
             ResultSet rs = null;

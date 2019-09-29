@@ -1,8 +1,6 @@
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,51 +14,45 @@ import javax.swing.table.DefaultTableModel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author BenGarde
  */
 public class KBGS_MainPage extends javax.swing.JFrame {
 
-    conn con = new conn();
+    dbconnector con = new dbconnector();
+    addprod apd = new addprod();
 
     /**
      * Creates new form KBGS_MainPage
      */
     public KBGS_MainPage() {
         initComponents();
-        brcode.setEditable(false);
-        this.setLocationRelativeTo(null);
+        refresh();
     }
-    public void Sproduct() {
-        int bc = Integer.parseInt(brcode.getText());
-        String bc1 = String.valueOf(bc);
-        String dc = desc.getText();
-        String br = brnd.getText();
-        int que = (int) qty.getValue();
-        String que1 = String.valueOf(que);
-        float p = Float.parseFloat(pr.getText());
-        String p1 = String.valueOf(p);
 
-        if (dc.equals("") || br.equals("") || que1.equals("0") || p1.equals("")) {
-            JOptionPane.showMessageDialog(rootPane, "Complete all textfield first!", "", JOptionPane.ERROR_MESSAGE);
-        } else {
-            apd.addingnewprod(dc, br, que, p);
-        }
-            if (x2==0) {
-//                if(x1==1){
-                    JOptionPane.showMessageDialog(rootPane, "Successfully Added!");
-//                }
-            } else {
-                JOptionPane.showMessageDialog(rootPane, "Invalid Barcode!", "Error", JOptionPane.ERROR_MESSAGE);
+    final void refresh() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = (Connection) DriverManager.getConnection(con.url, con.username, con.password);
+
+            String sql = "select * from products;";
+            Statement stmt = (Statement) conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery(sql);
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+
+            while (rs.next()) {
+                model.addRow(new Object[]{rs.getString("Barcode"), rs.getString("Description"),
+                    rs.getString("Brand"), rs.getString("Quantity"), rs.getString("Price")});
             }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(KBGS_MainPage.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(KBGS_MainPage.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    private void initComponents() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     }
 
     /**
@@ -232,10 +224,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
-                        .addComponent(brnd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)))
-                .addGap(6, 6, 6)
+                    .addComponent(brnd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(qty, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
@@ -482,7 +472,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1119, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -508,7 +498,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -520,36 +510,35 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         jFrame1.setVisible(true);
+        jFrame1.setAlwaysOnTop(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+    private void manualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualActionPerformed
         // TODO add your handling code here:
-        Sproduct();
-    }//GEN-LAST:event_addActionPerformed
-
-    private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clearActionPerformed
+        jDialog1.setVisible(true);
+        jDialog1.setAlwaysOnTop(true);
+    }//GEN-LAST:event_manualActionPerformed
 
     private void retrnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retrnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_retrnActionPerformed
 
-    private void manualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualActionPerformed
+    private void clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearActionPerformed
         // TODO add your handling code here:
-        jDialog1.setVisible(true);
-    }//GEN-LAST:event_manualActionPerformed
+    }//GEN-LAST:event_clearActionPerformed
 
-    private void barSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barSubmitActionPerformed
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         // TODO add your handling code here:
-        String bar = ibarcode.getText();
-        brcode.setText(bar);
-    }//GEN-LAST:event_barSubmitActionPerformed
+
+    }//GEN-LAST:event_addActionPerformed
 
     private void ibarcodeCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_ibarcodeCaretUpdate
         // TODO add your handling code here:
-
     }//GEN-LAST:event_ibarcodeCaretUpdate
+
+    private void barSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barSubmitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_barSubmitActionPerformed
 
     /**
      * @param args the command line arguments
