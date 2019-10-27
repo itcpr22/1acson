@@ -1,5 +1,4 @@
 
-import com.mysql.jdbc.PreparedStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -92,7 +91,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         manual = new javax.swing.JButton();
         qty = new javax.swing.JSpinner();
-        jLabel4 = new javax.swing.JLabel();
+        lTitle = new javax.swing.JLabel();
         retrn = new javax.swing.JButton();
         clear = new javax.swing.JButton();
         add = new javax.swing.JButton();
@@ -111,6 +110,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         btn_delete = new javax.swing.JButton();
         searchprod = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
+        edit = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -118,7 +118,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jFrame1.setTitle("Input New Item");
         jFrame1.setLocation(new java.awt.Point(250, 150));
         jFrame1.setResizable(false);
-        jFrame1.setSize(new java.awt.Dimension(534, 378));
+        jFrame1.setSize(new java.awt.Dimension(534, 370));
 
         jLayeredPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -249,10 +249,10 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel4.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Add new equipment & gun's");
-        jLabel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        lTitle.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
+        lTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lTitle.setText("Add new equipment & gun's");
+        lTitle.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         retrn.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
         retrn.setText("return");
@@ -273,7 +273,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         });
 
         add.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
-        add.setText("add");
+        add.setText("Add");
         add.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,7 +282,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         });
 
         jLayeredPane1.setLayer(jLayeredPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(lTitle, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(retrn, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(clear, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(add, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -295,7 +295,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLayeredPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,7 +309,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -491,6 +491,16 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         jLabel2.setText("Search : ");
 
+        edit.setFont(new java.awt.Font("Stencil", 0, 16)); // NOI18N
+        edit.setText("Edit");
+        edit.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        edit.setPreferredSize(new java.awt.Dimension(70, 50));
+        edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Navigate");
         jMenu1.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         jMenuBar1.add(jMenu1);
@@ -511,6 +521,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                         .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -526,7 +538,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(searchprod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel2)))
@@ -542,6 +555,11 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         // TODO add your handling code here:
+        lTitle.setText("Add new equipment & gun's");
+        add.setText("Add");
+        clear.setEnabled(true);
+        manual.setEnabled(true);
+
         jFrame1.setVisible(true);
         jFrame1.setAlwaysOnTop(true);
     }//GEN-LAST:event_btn_addActionPerformed
@@ -564,36 +582,72 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         // TODO add your handling code here:
-        String prod_bar = brcode.getText();
+        if (add.getText().equals("Add")) {
 
-        String prod_d = desc.getText();
-        String prod_b = brnd.getText();
-        int prod_qty = (int) qty.getValue();
-        String prod_p = pr.getText();
+            String prod_bar = brcode.getText();
+            String prod_d = desc.getText();
+            String prod_b = brnd.getText();
+            int prod_qty = (int) qty.getValue();
+            String prod_p = pr.getText();
 
-        int x = apd.checkUsername(prod_bar);
+            int x = apd.checkUsername(prod_bar);
 
-        //System.out.println(fn);//+"\n"+ln+"\n"+un+"\n"+pw
-        if (!"".equals(prod_d) && !"".equals(prod_b) && !"".equals(prod_qty) && !"".equals(prod_p)) {
+            //System.out.println(fn);//+"\n"+ln+"\n"+un+"\n"+pw
+            if (!"".equals(prod_d) && !"".equals(prod_b) && !"".equals(prod_qty) && !"".equals(prod_p)) {
 
-            if (x == 0) {
+                if (x == 0) {
 
-                int x1 = apd.addProduct(prod_d, prod_b, prod_qty, prod_p);
+                    int x1 = apd.addProduct(prod_d, prod_b, prod_qty, prod_p);
 
-                if (x1 == 1) {
-                    JOptionPane.showMessageDialog(jFrame1, "New Product Successfully added!");
-                    clear_ProdFields();
-                    refresh();
-                    jDialog1.setVisible(false);
-                    jFrame1.setVisible(false);
+                    if (x1 == 1) {
+                        JOptionPane.showMessageDialog(jFrame1, "New Product Successfully added!");
+                        clear_ProdFields();
+                        refresh();
+                        jDialog1.setVisible(false);
+                        jFrame1.setVisible(false);
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(jFrame1, "Barcode Already Exist! \n\n Do you want to update the product quantity?", "Warning", JOptionPane.YES_NO_OPTION);
                 }
 
             } else {
-                JOptionPane.showMessageDialog(jFrame1, "Barcode Already Exist! \n\n Do you want to update the product quantity?", "Warning", JOptionPane.YES_NO_OPTION);
+                JOptionPane.showMessageDialog(jFrame1, "Please fill-out all the fields!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+        } else if (add.getText().equals("Update")) {
+            //UPDATE `kbgs`.`products` SET `Description`='m4567', `Brand`='china bejing', `Quantity`='15', `Price`='200' WHERE  `Barcode`=10009;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                String url = "jdbc:mysql://localhost/kbgs?user=root&password=";
+                Connection con = DriverManager.getConnection(url);
+
+                Statement stmt5 = null;
+                ResultSet rs5 = null;
+                String sql5 = "select * from products where Barcode = '" + brcode.getText() + "'";
+                stmt5 = con.createStatement();
+                rs5 = stmt5.executeQuery(sql5);
+
+                if (rs5.next()) {
+
+                    Statement stmt = null;
+                    String sql = "UPDATE `kbgs`.`products` SET `Description`='" + desc.getText() + "', `Brand`='" + brnd.getText() + "',"
+                            + " `Quantity`='" + qty.getValue() + "', `Price`='" + pr.getText() + "' WHERE  `Barcode`='" + brcode.getText() + "' ";
+                    stmt = con.createStatement();
+                    stmt.executeUpdate(sql);
+
+                    JOptionPane.showMessageDialog(jFrame1, "Account Updated!");
+                    refresh();
+                    clear_ProdFields();
+                    jFrame1.setVisible(false);
+
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
             }
 
-        } else {
-            JOptionPane.showMessageDialog(jFrame1, "Please fill-out all the fields!", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -708,6 +762,53 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
     }//GEN-LAST:event_searchprodCaretUpdate
 
+    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
+        // TODO add your handling code here:
+        int table = jTable1.getSelectedRow();
+
+        if (table == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Please select table content first! ", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            Object prodDesc = jTable1.getValueAt(table, 1);
+
+            int confirm_prod = JOptionPane.showConfirmDialog(rootPane, "Do you want to update " + prodDesc + "?"
+                    + "\nClick OK to continue", "Confirm Update", JOptionPane.OK_CANCEL_OPTION);
+
+            if (confirm_prod == JOptionPane.YES_OPTION) {
+
+                jFrame1.setVisible(true);
+                jFrame1.setAlwaysOnTop(true);
+                lTitle.setText("Update Product");
+                add.setText("Update");
+                clear.setEnabled(false);
+                manual.setEnabled(false);
+
+                brcode.setText(jTable1.getValueAt(table, 0).toString());
+                desc.setText(jTable1.getValueAt(table, 1).toString());
+                brnd.setText(jTable1.getValueAt(table, 2).toString());
+
+                int xbarcode = Integer.parseInt(jTable1.getValueAt(table, 3).toString());
+                qty.setValue(xbarcode);
+                int xprice = Integer.parseInt(jTable1.getValueAt(table, 4).toString());
+                pr.setText(String.valueOf(xprice));
+
+//                int del_prod = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete " + prodDesc + "?",
+//                        "Delete", JOptionPane.YES_NO_OPTION);
+//
+//                if (del_prod == JOptionPane.YES_OPTION) {
+//
+//                    int del = apd.deleteProduct(xbarcode);
+//
+//                    if (del == 1) {
+//                        JOptionPane.showMessageDialog(rootPane, "Product " + prodDesc + " where deleted in database");
+//                        refresh();
+//                    }
+//                }
+            }
+        }
+    }//GEN-LAST:event_editActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -752,6 +853,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     private javax.swing.JButton btn_delete;
     private javax.swing.JButton clear;
     private javax.swing.JTextField desc;
+    private javax.swing.JButton edit;
     private javax.swing.JTextField ibarcode;
     private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
@@ -760,7 +862,6 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -775,6 +876,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lTitle;
     private javax.swing.JButton manual;
     private javax.swing.JTextField pr;
     private javax.swing.JSpinner qty;
