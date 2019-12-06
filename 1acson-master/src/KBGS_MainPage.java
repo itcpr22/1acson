@@ -29,7 +29,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     public KBGS_MainPage() {
         initComponents();
         brcode.setEditable(false);
-        refresh();
+        //refresh();
+        refreshThread.start();
     }
 
     public void clear_ProdFields() {
@@ -66,6 +67,21 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     }
 
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
+        Thread refreshThread = new Thread(new Runnable() {     
+        @Override
+        public void run(){
+            try{
+                while(true){
+                    refresh();
+                    //System.out.println("Refresh");
+                    Thread.sleep(5000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(KBGS_MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+    });
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//
     /**
      * This method is called from within the constructor to initialize the form.
@@ -617,7 +633,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                     if (x1 == 1) {
                         JOptionPane.showMessageDialog(jFrame1, "New Product Successfully added!");
                         clear_ProdFields();
-                        refresh();
+                        //refresh();
                         jDialog1.setVisible(false);
                         jFrame1.setVisible(false);
                     }
@@ -653,7 +669,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                     stmt.executeUpdate(sql);
 
                     JOptionPane.showMessageDialog(jFrame1, "Account Updated!");
-                    refresh();
+                    //refresh();
                     clear_ProdFields();
                     jFrame1.setVisible(false);
 
@@ -703,8 +719,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                     int del = apd.deleteProduct(xbarcode);
 
                     if (del == 1) {
-                        JOptionPane.showMessageDialog(rootPane, "Product " + prodDesc + " where deleted in database");
-                        refresh();
+                        JOptionPane.showMessageDialog(rootPane, "Product " + prodDesc + " have been deleted in database");
+                        //refresh();
                     }
                 }
             }
