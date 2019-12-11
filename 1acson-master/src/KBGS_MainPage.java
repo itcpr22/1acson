@@ -55,8 +55,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
             model.setRowCount(0);
 
             while (rs.next()) {
-                model.addRow(new Object[]{rs.getString("Barcode"), rs.getString("Description"),
-                    rs.getString("Brand"), rs.getString("Quantity"), rs.getString("Price")});
+                model.addRow(new Object[]{rs.getString("Barcode"), rs.getString("Description"), rs.getString("Brand")
+                        , rs.getString("Item_type"), rs.getString("Quantity"), rs.getString("Price")});
             }
 
         } catch (ClassNotFoundException ex) {
@@ -107,6 +107,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         manual = new javax.swing.JButton();
         qty = new javax.swing.JSpinner();
+        jLabel10 = new javax.swing.JLabel();
+        itemtype = new javax.swing.JTextField();
         lTitle = new javax.swing.JLabel();
         retrn = new javax.swing.JButton();
         clear = new javax.swing.JButton();
@@ -128,6 +130,10 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         edit = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        KBGS_POS = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jSeparator3 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
 
@@ -135,7 +141,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jFrame1.setTitle("Input New Item");
         jFrame1.setLocation(new java.awt.Point(250, 150));
         jFrame1.setResizable(false);
-        jFrame1.setSize(new java.awt.Dimension(534, 370));
+        jFrame1.setSize(new java.awt.Dimension(534, 400));
 
         jLayeredPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -188,6 +194,13 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
         qty.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
 
+        jLabel10.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Item Type");
+        jLabel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        itemtype.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+
         jLayeredPane2.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -200,6 +213,8 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jLayeredPane2.setLayer(jLabel11, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(manual, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(qty, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(itemtype, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(jLayeredPane2);
         jLayeredPane2.setLayout(jLayeredPane2Layout);
@@ -218,14 +233,6 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                         .addComponent(qty, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jLayeredPane2Layout.createSequentialGroup()
-                        .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(desc, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-                            .addComponent(brnd)))
-                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,7 +240,17 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(manual, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(brcode))))
+                            .addComponent(brcode)))
+                    .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                        .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(desc, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                            .addComponent(brnd)
+                            .addComponent(itemtype))))
                 .addContainerGap())
         );
         jLayeredPane2Layout.setVerticalGroup(
@@ -255,7 +272,11 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(brnd, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(itemtype, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(qty, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
@@ -436,11 +457,11 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Barcode", "Description", "Brand", "Quantity", "Price"
+                "Barcode", "Description", "Brand", "Item type", "Quantity", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -527,6 +548,20 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Type the product name here");
 
+        KBGS_POS.setFont(new java.awt.Font("Stencil", 0, 16)); // NOI18N
+        KBGS_POS.setText("POS");
+        KBGS_POS.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        KBGS_POS.setPreferredSize(new java.awt.Dimension(70, 50));
+        KBGS_POS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KBGS_POSActionPerformed(evt);
+            }
+        });
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         jMenu1.setText("Navigate");
         jMenu1.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         jMenuBar1.add(jMenu1);
@@ -537,19 +572,26 @@ public class KBGS_MainPage extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1119, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator3)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1119, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(KBGS_POS, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -563,19 +605,24 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(KBGS_POS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(edit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(searchprod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))))
+                            .addComponent(jLabel2)))
+                    .addComponent(jSeparator1)
+                    .addComponent(jSeparator2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -618,17 +665,18 @@ public class KBGS_MainPage extends javax.swing.JFrame {
             String prod_bar = brcode.getText();
             String prod_d = desc.getText();
             String prod_b = brnd.getText();
+            String prod_it = itemtype.getText();
             int prod_qty = (int) qty.getValue();
             String prod_p = pr.getText();
 
             int x = apd.checkUsername(prod_bar);
 
             //System.out.println(fn);//+"\n"+ln+"\n"+un+"\n"+pw
-            if (!"".equals(prod_d) && !"".equals(prod_b) && !"".equals(prod_qty) && !"".equals(prod_p)) {
+            if (!"".equals(prod_d) && !"".equals(prod_b) && !"".equals(prod_it) && !"".equals(prod_qty) && !"".equals(prod_p)) {
 
                 if (x == 0) {
 
-                    int x1 = apd.addProduct(prod_d, prod_b, prod_qty, prod_p);
+                    int x1 = apd.addProduct(prod_d, prod_b, prod_it, prod_qty, prod_p);
 
                     if (x1 == 1) {
                         JOptionPane.showMessageDialog(jFrame1, "New Product Successfully added!");
@@ -664,6 +712,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
 
                     Statement stmt = null;
                     String sql = "UPDATE `kbgs`.`products` SET `Description`='" + desc.getText() + "', `Brand`='" + brnd.getText() + "',"
+                            + " `Item_type`='" + itemtype.getText() + "',"
                             + " `Quantity`='" + qty.getValue() + "', `Price`='" + pr.getText() + "' WHERE  `Barcode`='" + brcode.getText() + "' ";
                     stmt = con.createStatement();
                     stmt.executeUpdate(sql);
@@ -818,10 +867,11 @@ public class KBGS_MainPage extends javax.swing.JFrame {
                 brcode.setText(jTable1.getValueAt(table, 0).toString());
                 desc.setText(jTable1.getValueAt(table, 1).toString());
                 brnd.setText(jTable1.getValueAt(table, 2).toString());
+                itemtype.setText(jTable1.getValueAt(table, 3).toString());
 
-                int xbarcode = Integer.parseInt(jTable1.getValueAt(table, 3).toString());
+                int xbarcode = Integer.parseInt(jTable1.getValueAt(table, 4).toString());
                 qty.setValue(xbarcode);
-                int xprice = Integer.parseInt(jTable1.getValueAt(table, 4).toString());
+                int xprice = Integer.parseInt(jTable1.getValueAt(table, 5).toString());
                 pr.setText(String.valueOf(xprice));
 
 //                int del_prod = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete " + prodDesc + "?",
@@ -843,6 +893,12 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     private void searchprodMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchprodMouseEntered
         // TODO add your handling code here:
     }//GEN-LAST:event_searchprodMouseEntered
+
+    private void KBGS_POSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KBGS_POSActionPerformed
+new KBGS_POS().setVisible(true);
+this.setVisible(false);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_KBGS_POSActionPerformed
 
     /**
      * @param args the command line arguments
@@ -880,6 +936,7 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton KBGS_POS;
     private javax.swing.JButton add;
     private javax.swing.JButton barSubmit;
     private javax.swing.JTextField brcode;
@@ -890,10 +947,12 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     private javax.swing.JTextField desc;
     private javax.swing.JButton edit;
     private javax.swing.JTextField ibarcode;
+    private javax.swing.JTextField itemtype;
     private javax.swing.JButton jButton1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -910,6 +969,9 @@ public class KBGS_MainPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel lTitle;

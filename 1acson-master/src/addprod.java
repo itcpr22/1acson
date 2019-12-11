@@ -20,13 +20,13 @@ public class addprod {
 
     dbconnector con = new dbconnector();
 
-    public int addProduct(String prod_desc, String prod_brand, int quantity, Object price) {
+    public int addProduct(String prod_desc, String prod_brand, String prod_itemtype, int quantity, Object price) {
         int x1 = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = (Connection) DriverManager.getConnection(con.url, con.username, con.password);
 
-            String sql = "insert into products values(null,?,?,?,?);";
+            String sql = "insert into products values(null,?,?,?,?,?);";
             PreparedStatement pstmt = (PreparedStatement) conn.prepareStatement(sql);
 
             String np = price.toString();
@@ -34,8 +34,9 @@ public class addprod {
 
             pstmt.setString(1, prod_desc);
             pstmt.setString(2, prod_brand);
-            pstmt.setInt(3, quantity);
-            pstmt.setFloat(4, newprice);
+            pstmt.setString(3, prod_itemtype);
+            pstmt.setInt(4, quantity);
+            pstmt.setFloat(5, newprice);
 
             x1 = pstmt.executeUpdate();
 

@@ -1,9 +1,14 @@
 
+import static java.nio.file.StandardOpenOption.CREATE;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static jdk.nashorn.internal.runtime.ECMAException.CREATE;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -42,6 +47,7 @@ public class login extends javax.swing.JFrame {
         conpwd = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
         submitBTN = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jLabel1 = new javax.swing.JLabel();
         uname = new javax.swing.JTextField();
@@ -52,10 +58,11 @@ public class login extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        userenterid = new javax.swing.JLabel();
 
         jDialog1.setSize(new java.awt.Dimension(350, 380));
 
-        jLayeredPane2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jLayeredPane2.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 204)));
 
         jLabel6.setFont(new java.awt.Font("Stencil", 1, 24)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -85,6 +92,8 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "User", "Admin" }));
+
         jLayeredPane2.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(user, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(spwd, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -93,6 +102,7 @@ public class login extends javax.swing.JFrame {
         jLayeredPane2.setLayer(conpwd, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(submitBTN, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(jComboBox1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(jLayeredPane2);
         jLayeredPane2.setLayout(jLayeredPane2Layout);
@@ -105,21 +115,22 @@ public class login extends javax.swing.JFrame {
                     .addComponent(user)
                     .addComponent(spwd)
                     .addComponent(conpwd)
+                    .addComponent(submitBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jLayeredPane2Layout.createSequentialGroup()
-                        .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel8)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel9))
-                        .addGap(0, 159, Short.MAX_VALUE))
-                    .addComponent(submitBTN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 136, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jLayeredPane2Layout.setVerticalGroup(
             jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
@@ -131,7 +142,9 @@ public class login extends javax.swing.JFrame {
                 .addComponent(conpwd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addComponent(submitBTN)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -140,22 +153,16 @@ public class login extends javax.swing.JFrame {
         jDialog1.getContentPane().setLayout(jDialog1Layout);
         jDialog1Layout.setHorizontalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jDialog1Layout.setVerticalGroup(
             jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLayeredPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLayeredPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 153)));
 
         jLabel1.setFont(new java.awt.Font("Stencil", 0, 14)); // NOI18N
         jLabel1.setText("Username: ");
@@ -200,6 +207,8 @@ public class login extends javax.swing.JFrame {
             }
         });
 
+        userenterid.setText("jLabel10");
+
         jLayeredPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(uname, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -209,6 +218,7 @@ public class login extends javax.swing.JFrame {
         jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(userenterid, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -217,6 +227,8 @@ public class login extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -226,14 +238,15 @@ public class login extends javax.swing.JFrame {
                             .addComponent(uname)
                             .addComponent(pwd, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(userenterid)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
@@ -254,9 +267,12 @@ public class login extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jLabel5))
-                .addContainerGap(63, Short.MAX_VALUE))
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(userenterid))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -339,6 +355,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPasswordField conpwd;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -356,6 +373,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JButton submitBTN;
     private javax.swing.JTextField uname;
     private javax.swing.JTextField user;
+    private javax.swing.JLabel userenterid;
     // End of variables declaration//GEN-END:variables
 
 //x-------------------------------------------------------------------------------------------x//
@@ -376,10 +394,21 @@ public class login extends javax.swing.JFrame {
             if (rs.next()) {
 
                 if (uname.getText().equals(rs.getString("Username")) || pwd.getText().equals("Password")) {
-                    setVisible(false);
-                    new KBGS_MainPage().setVisible(true);
+                    if (rs.getString("User_type").equals("Admin")) {
+
+                        setVisible(false);
+                        new KBGS_MainPage().setVisible(true);
+
+                    } else if (rs.getString("User_type").equals("User")) {
+
+                        setVisible(false);
+                        createdb();
+                        new KBGS_POS().setVisible(true);
+
+                    }
+
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "Incorrect Username and Password!");
+//                    JOptionPane.showMessageDialog(rootPane, "Incorrect Username and Password!");
                 }
 
             } else if (uname.getText().equals("")) {
@@ -415,6 +444,8 @@ public class login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Enter Username!");
         } else if (spwd.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Enter your Password!");
+        } else if (jComboBox1.getSelectedItem().equals("Select")) {
+            JOptionPane.showMessageDialog(null, "Select type of user!");
         } else {
 
             try {
@@ -440,9 +471,9 @@ public class login extends javax.swing.JFrame {
                     if (conpwd.getText().contentEquals(spwd.getText())) {
                         Statement stmt1 = null;
                         String sql1 = "INSERT INTO `kbgs`.`account` "
-                                + "(`Username`, `Password`)"
+                                + "(`Username`, `Password`, `User_type`)"
                                 + " VALUES "
-                                + "('" + user.getText() + "', md5('" + spwd.getText() + "')) ;";
+                                + "('" + user.getText() + "', md5('" + spwd.getText() + "'), '" + jComboBox1.getSelectedItem().toString() + "') ;";
                         stmt1 = con.createStatement();
                         stmt1.executeUpdate(sql1);
 
@@ -458,6 +489,68 @@ public class login extends javax.swing.JFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
             }
+        }
+    }
+//x-------------------------------------------------------------------------------------------x//
+
+    public void createdb() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost/kbgs?user=root&password=";
+            Connection con = DriverManager.getConnection(url);
+
+            Statement stmt = null;
+            ResultSet rs = null;
+            String sql = "select * from account where Username = '" + uname.getText() + "'";
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                userenterid.setText(rs.getString("ID"));
+            }
+            Statement stmt1 = null;
+            String sql1 = "CREATE TABLE `" + uname.getText() + "` (\n"
+                    + "	`Barcode` INT(55) NOT NULL,\n"
+                    + "	`Description` TEXT NOT NULL,\n"
+                    + "	`Item_type` TEXT NOT NULL,\n"
+                    + "	`Brand` TEXT NOT NULL,\n"
+                    + "	`Quantity` INT(55) NOT NULL,\n"
+                    + "	`Price` INT(55) NOT NULL,\n"
+                    + "	`Subtotal` INT(55) NOT NULL,\n"
+                    + "	`User_id` INT(55) NOT NULL,\n"
+                    + "	`Date_purchase` VARCHAR(55) NOT NULL\n"
+                    + ")\n"
+                    + "COLLATE='latin1_swedish_ci'\n"
+                    + ";";
+            stmt1 = con.createStatement();
+            stmt1.executeUpdate(sql1);
+
+//            String userlogger, userenter, enteruser;
+//            userlogger = "user";
+//            userenter = uname.getText();
+//            enteruser = userlogger + userenter;
+//
+//            Statement stmt2 = null;
+//            String sql2 = "CREATE TABLE `" + enteruser + "` (\n"
+//                    + "	`ID` INT NOT NULL,\n"
+//                    + "	`Username` TEXT NOT NULL\n"
+//                    + ")\n"
+//                    + "COLLATE='latin1_swedish_ci'\n"
+//                    + ";";
+//            stmt2 = con.createStatement();
+//            stmt2.executeUpdate(sql2);
+//
+//            Statement stmt3 = null;
+//            String sql3 = "INSERT INTO `kbgs`.`" + enteruser + "` (`ID`, `Username`) VALUES ('" + userenterid.getText() + "', '" + uname.getText() + "');";
+//            stmt3 = con.createStatement();
+//            stmt3.executeUpdate(sql3);
+            
+            Statement stmt4 = null;
+            String sql4 = "INSERT INTO `kbgs`.`user_logger` (`ID`, `Username`, `Action`) VALUES ('"+userenterid.getText()+"', '"+uname.getText()+"', 'login account');";
+            stmt4 = con.createStatement();
+            stmt4.executeUpdate(sql4);
+
+        } catch (Exception e) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, e);
         }
     }
 //x-------------------------------------------------------------------------------------------x//    
