@@ -250,23 +250,72 @@ public class KBGS_POS extends javax.swing.JFrame {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
 
-            Statement stmtq = null;
-            ResultSet rss = null;
-            String sqlq = "select * from " + cashierusername.getText() + " ";
-            stmtq = conn.createStatement();
-            rss = stmtq.executeQuery(sqlq);
-            
-            if (rss.next()) {
+//            Statement stmtq = null;
+//            ResultSet rss = null;
+//            String sqlq = "select * from " + cashierusername.getText() + " ";
+//            stmtq = conn.createStatement();
+//            rss = stmtq.executeQuery(sqlq);
+            Object checkqty = qty.getValue();
+            int dcheck = (int) checkqty;
+            int x = 0;
+
+            if (dcheck == x) {
+                JOptionPane.showMessageDialog(rootPane, "add quantity!?");
+                barcode.setText(barcode.getText());
+            } else if (barcode.getText().equals("")) {
+                JOptionPane.showMessageDialog(rootPane, "No fucking barcode!!!");
+            } else {
+
                 if (rs.next()) {
-                    if (barcode.getText().equals(rss.getString("Barcode"))) {
+
+                    if (addproduct.getText().equals("ADD")) {
+
+                        int quantity_db = Integer.parseInt(rs.getString("Quantity"));
+                        int quantity_txt = Integer.parseInt(qty.getValue().toString());
+                        int solve = quantity_db - quantity_txt;
+
+                        Statement stmtqty = null;
+                        String sqlqty = "UPDATE `kbgs`.`products` SET `Quantity`='" + solve + "' WHERE  `Barcode`='" + barcode.getText() + "'";
+                        stmtqty = conn.createStatement();
+                        stmtqty.executeUpdate(sqlqty);
+//                JOptionPane.showMessageDialog(rootPane, "Quantity have been subtracted");
+                        int orderqty = Integer.parseInt(qty.getValue().toString());
+                        int orderprice = Integer.parseInt(price.getText());
+                        int ordertotal = orderqty * orderprice;
+
+                        Statement stmtInsertOrder = null;
+                        String sqlInsertOrder = "INSERT INTO `kbgs`. `" + cashierusername.getText() + "` (`Barcode`, `Description`, `Item_type`, `Brand`, `Quantity`, `Price`, `Subtotal`, `User_id`, `Date_purchase`)"
+                                + " VALUES "
+                                + "('" + barcode.getText() + "',"
+                                + " '" + desc.getText() + "',"
+                                + " '" + itemtype.getText() + "',"
+                                + " '" + brand.getText() + "',"
+                                + " '" + orderqty + "',"
+                                + " '" + price.getText() + "',"
+                                + " '" + ordertotal + "',"
+                                + " '" + userid.getText() + "',"
+                                + " '" + date.getText() + " " + time.getText() + "')";
+                        stmtInsertOrder = conn.createStatement();
+                        stmtInsertOrder.executeUpdate(sqlInsertOrder);
+
+                        JOptionPane.showMessageDialog(rootPane, "Order have been added!");
+//                    refresh();
+                        barcode.setText("");
+
+                    } else if (addproduct.getText().equals("UPDATE")) {
+
                         JOptionPane.showMessageDialog(rootPane, "barcode already exist!");
 
-                        int qq = Integer.parseInt(rss.getString("Quantity"));
+                        int qq = Integer.parseInt(existqty.getText());
                         int qq_txt = Integer.parseInt(qty.getValue().toString());
-                        int sol = qq + qq_txt;
+                        int upsol = qq + qq_txt;
+
+                        int updateprice = Integer.parseInt(price.getText());
+                        double subt = upsol * updateprice;
 
                         Statement st = null;
-                        String sq = "UPDATE `kbgs`.`" + cashierusername.getText() + "` SET `Quantity`='" + sol + "' WHERE `Barcode`='" + barcode.getText() + "'";
+                        String sq = "UPDATE `kbgs`.`" + cashierusername.getText() + "` SET `Quantity`='" + upsol + "', `Subtotal`='" + subt + "' "
+                                + "WHERE `Barcode`='" + existID.getText() + "'";
                         st = conn.createStatement();
                         st.executeUpdate(sq);
 
@@ -278,15 +327,13 @@ public class KBGS_POS extends javax.swing.JFrame {
                         String sqlqty = "UPDATE `kbgs`.`products` SET `Quantity`='" + solve + "' WHERE  `Barcode`='" + barcode.getText() + "'";
                         stmtqty = conn.createStatement();
                         stmtqty.executeUpdate(sqlqty);
-                        
+
                         refresh();
                         clear();
                         barcode.setText("");
-
-                    } else {
-                        orderMinusQuantity();
                     }
                 }
+
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(KBGS_POS.class.getName()).log(Level.SEVERE, null, ex);
@@ -315,52 +362,40 @@ public class KBGS_POS extends javax.swing.JFrame {
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
 
-            Object checkqty = qty.getValue();
-            int dcheck = (int) checkqty;
-            int x = 0;
+            if (rs.next()) {
 
-            if (dcheck == x) {
-                JOptionPane.showMessageDialog(rootPane, "add quantity!?");
-                barcode.setText(barcode.getText());
-            } else if (barcode.getText().equals("")) {
-                JOptionPane.showMessageDialog(rootPane, "No fucking barcode!!!");
-            } else {
+                int quantity_db = Integer.parseInt(rs.getString("Quantity"));
+                int quantity_txt = Integer.parseInt(qty.getValue().toString());
+                int solve = quantity_db - quantity_txt;
 
-                if (rs.next()) {
-
-                    int quantity_db = Integer.parseInt(rs.getString("Quantity"));
-                    int quantity_txt = Integer.parseInt(qty.getValue().toString());
-                    int solve = quantity_db - quantity_txt;
-
-                    Statement stmtqty = null;
-                    String sqlqty = "UPDATE `kbgs`.`products` SET `Quantity`='" + solve + "' WHERE  `Barcode`='" + barcode.getText() + "'";
-                    stmtqty = conn.createStatement();
-                    stmtqty.executeUpdate(sqlqty);
+                Statement stmtqty = null;
+                String sqlqty = "UPDATE `kbgs`.`products` SET `Quantity`='" + solve + "' WHERE  `Barcode`='" + barcode.getText() + "'";
+                stmtqty = conn.createStatement();
+                stmtqty.executeUpdate(sqlqty);
 //                JOptionPane.showMessageDialog(rootPane, "Quantity have been subtracted");
-                    int orderqty = Integer.parseInt(qty.getValue().toString());
-                    int orderprice = Integer.parseInt(price.getText());
-                    int ordertotal = orderqty * orderprice;
+                int orderqty = Integer.parseInt(qty.getValue().toString());
+                int orderprice = Integer.parseInt(price.getText());
+                int ordertotal = orderqty * orderprice;
 
-                    Statement stmtInsertOrder = null;
-                    String sqlInsertOrder = "INSERT INTO `kbgs`. `" + cashierusername.getText() + "` (`Barcode`, `Description`, `Item_type`, `Brand`, `Quantity`, `Price`, `Subtotal`, `User_id`, `Date_purchase`)"
-                            + " VALUES "
-                            + "('" + barcode.getText() + "',"
-                            + " '" + desc.getText() + "',"
-                            + " '" + itemtype.getText() + "',"
-                            + " '" + brand.getText() + "',"
-                            + " '" + orderqty + "',"
-                            + " '" + price.getText() + "',"
-                            + " '" + ordertotal + "',"
-                            + " '" + userid.getText() + "',"
-                            + " '" + date.getText() + " " + time.getText() + "')";
-                    stmtInsertOrder = conn.createStatement();
-                    stmtInsertOrder.executeUpdate(sqlInsertOrder);
+                Statement stmtInsertOrder = null;
+                String sqlInsertOrder = "INSERT INTO `kbgs`. `" + cashierusername.getText() + "` (`Barcode`, `Description`, `Item_type`, `Brand`, `Quantity`, `Price`, `Subtotal`, `User_id`, `Date_purchase`)"
+                        + " VALUES "
+                        + "('" + barcode.getText() + "',"
+                        + " '" + desc.getText() + "',"
+                        + " '" + itemtype.getText() + "',"
+                        + " '" + brand.getText() + "',"
+                        + " '" + orderqty + "',"
+                        + " '" + price.getText() + "',"
+                        + " '" + ordertotal + "',"
+                        + " '" + userid.getText() + "',"
+                        + " '" + date.getText() + " " + time.getText() + "')";
+                stmtInsertOrder = conn.createStatement();
+                stmtInsertOrder.executeUpdate(sqlInsertOrder);
 
-                    JOptionPane.showMessageDialog(rootPane, "Order have been added!");
+                JOptionPane.showMessageDialog(rootPane, "Order have been added!");
 //                    refresh();
-                    barcode.setText("");
+                barcode.setText("");
 
-                }
             }
 
         } catch (HeadlessException | ClassNotFoundException | NumberFormatException | SQLException e) {
@@ -405,11 +440,10 @@ public class KBGS_POS extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         removeorder = new javax.swing.JButton();
-        removeorder2 = new javax.swing.JButton();
-        removeorder3 = new javax.swing.JButton();
-        removeorder4 = new javax.swing.JButton();
-        removeorder5 = new javax.swing.JButton();
-        removeorder6 = new javax.swing.JButton();
+        existProd = new javax.swing.JButton();
+        transAction = new javax.swing.JButton();
+        existID = new javax.swing.JButton();
+        existqty = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         totalamount = new javax.swing.JLabel();
@@ -445,6 +479,7 @@ public class KBGS_POS extends javax.swing.JFrame {
         jLabel27 = new javax.swing.JLabel();
         cash = new javax.swing.JTextField();
         addproduct = new javax.swing.JButton();
+        dropcash = new javax.swing.JButton();
         userid = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         cashierusername = new javax.swing.JLabel();
@@ -636,38 +671,35 @@ public class KBGS_POS extends javax.swing.JFrame {
             }
         });
 
-        removeorder2.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        removeorder2.addActionListener(new java.awt.event.ActionListener() {
+        existProd.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        existProd.setText("no selected value");
+        existProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeorder2ActionPerformed(evt);
+                existProdActionPerformed(evt);
             }
         });
 
-        removeorder3.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        removeorder3.addActionListener(new java.awt.event.ActionListener() {
+        transAction.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        transAction.setText("Available");
+        transAction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeorder3ActionPerformed(evt);
+                transActionActionPerformed(evt);
             }
         });
 
-        removeorder4.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        removeorder4.addActionListener(new java.awt.event.ActionListener() {
+        existID.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        existID.setText("no selected value");
+        existID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeorder4ActionPerformed(evt);
+                existIDActionPerformed(evt);
             }
         });
 
-        removeorder5.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        removeorder5.addActionListener(new java.awt.event.ActionListener() {
+        existqty.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
+        existqty.setText("0");
+        existqty.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeorder5ActionPerformed(evt);
-            }
-        });
-
-        removeorder6.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
-        removeorder6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeorder6ActionPerformed(evt);
+                existqtyActionPerformed(evt);
             }
         });
 
@@ -693,19 +725,18 @@ public class KBGS_POS extends javax.swing.JFrame {
                     .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                     .addComponent(jTextField4))
                 .addGap(18, 18, 18)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(removeorder4, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                    .addComponent(removeorder5, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(removeorder, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                    .addComponent(existID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(removeorder2, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                    .addComponent(removeorder3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(removeorder6, javax.swing.GroupLayout.DEFAULT_SIZE, 125, Short.MAX_VALUE)
-                    .addComponent(removeorder, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(existqty, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(existProd, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
+                    .addComponent(transAction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -713,29 +744,29 @@ public class KBGS_POS extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel15)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jSeparator3)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(removeorder5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeorder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                            .addComponent(removeorder3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(removeorder6, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                            .addComponent(removeorder2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeorder4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(removeorder, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(transAction, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel15)
+                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel13)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(existID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(existqty, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(existProd, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -917,11 +948,11 @@ public class KBGS_POS extends javax.swing.JFrame {
             }
         });
         qty.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                qtyCaretPositionChanged(evt);
-            }
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
                 qtyInputMethodTextChanged(evt);
+            }
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                qtyCaretPositionChanged(evt);
             }
         });
         qty.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -1026,6 +1057,14 @@ public class KBGS_POS extends javax.swing.JFrame {
             }
         });
 
+        dropcash.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        dropcash.setText("DROP");
+        dropcash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dropcashActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -1062,12 +1101,14 @@ public class KBGS_POS extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(qty, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(addproduct)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(jLabel6))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(qty, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addproduct)
+                        .addGap(18, 18, 18)
+                        .addComponent(dropcash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -1083,13 +1124,15 @@ public class KBGS_POS extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(addproduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(addproduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dropcash))
                     .addComponent(qty))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cash, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(cash, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                     .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -1271,6 +1314,26 @@ public class KBGS_POS extends javax.swing.JFrame {
             String url = "jdbc:mysql://localhost/kbgs?user=root&password=";
             Connection conn = DriverManager.getConnection(url);
 
+            Statement stmtq = null;
+            ResultSet rss = null;
+            String sqlq = "select * from " + cashierusername.getText() + " where Barcode like '%" + barcode.getText() + "%' ";
+            stmtq = conn.createStatement();
+            rss = stmtq.executeQuery(sqlq);
+            while (rss.next()) {
+                if (barcode.getText().equals(rss.getString("Barcode"))) {
+                    existID.setText(rss.getString("Barcode"));
+                    existProd.setText(rss.getString("Description"));
+                    existqty.setText(rss.getString("Quantity"));
+                    addproduct.setText("UPDATE");
+                } else {
+                    existID.setText("no selected value");
+                    existProd.setText("no selected value");
+                    existqty.setText("0");
+                    addproduct.setText("ADD");
+                }
+
+            }
+
             Statement stmt = null;
             ResultSet rs = null;
             String sql = "select * from products where Barcode like '%" + barcode.getText() + "%'";
@@ -1322,6 +1385,7 @@ public class KBGS_POS extends javax.swing.JFrame {
     }//GEN-LAST:event_barcodeMouseEntered
 
     private void searchProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchProdActionPerformed
+        searchProd.setEnabled(false);
 //        tablepanel.setVisible(false);
 //        jDialog1.setVisible(true);
         // TODO add your handling code here:
@@ -1377,7 +1441,8 @@ public class KBGS_POS extends javax.swing.JFrame {
     }//GEN-LAST:event_qtyAncestorAdded
 
     private void barcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barcodeActionPerformed
-        orderMinusQuantity();
+//        orderMinusQuantity();
+        checkorder();
         clear();
         // TODO add your handling code here:
     }//GEN-LAST:event_barcodeActionPerformed
@@ -1400,6 +1465,7 @@ public class KBGS_POS extends javax.swing.JFrame {
                 vat12.setText("0.00");
                 amountdue.setText("0.00");
                 totalamount.setText("0.00");
+                transAction.setText("Transaction Not Available");
                 tablepanel.setVisible(false);
                 jDialog1.setVisible(true);
             } else {
@@ -1428,15 +1494,16 @@ public class KBGS_POS extends javax.swing.JFrame {
         refresh();
         jDialog1.setVisible(false);
         tablepanel.setVisible(true);
+        transAction.setText("Available");
 
         // TODO add your handling code here:
     }//GEN-LAST:event_BTNOKActionPerformed
 
     private void BTNOKKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_BTNOKKeyPressed
-        createdb();
-        refresh();
-        jDialog1.setVisible(false);
-        tablepanel.setVisible(true);
+//        createdb();
+//        refresh();
+//        jDialog1.setVisible(false);
+//        tablepanel.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_BTNOKKeyPressed
 
@@ -1540,10 +1607,15 @@ public class KBGS_POS extends javax.swing.JFrame {
             stmt4 = con.createStatement();
             stmt4.executeUpdate(sql4);
 
-            userid.setText("0000");
-            cashierusername.setText("Cashiername");
-            new login().setVisible(true);
-            this.setVisible(false);
+            if (transAction.getText().equals("Available")) {
+                JOptionPane.showMessageDialog(rootPane, "Finish your transaction first");
+            } else if (transAction.getText().equals("Transaction Not Available")) {
+                userid.setText("0000");
+                cashierusername.setText("Cashiername");
+                jDialog1.setVisible(false);
+                new login().setVisible(true);
+                this.setVisible(false);
+            }
 
         } catch (Exception e) {
             Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, e);
@@ -1551,25 +1623,40 @@ public class KBGS_POS extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cashoutActionPerformed
 
-    private void removeorder2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeorder2ActionPerformed
+    private void existProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existProdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_removeorder2ActionPerformed
+    }//GEN-LAST:event_existProdActionPerformed
 
-    private void removeorder3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeorder3ActionPerformed
+    private void transActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transActionActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_removeorder3ActionPerformed
+    }//GEN-LAST:event_transActionActionPerformed
 
-    private void removeorder4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeorder4ActionPerformed
+    private void existIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_removeorder4ActionPerformed
+    }//GEN-LAST:event_existIDActionPerformed
 
-    private void removeorder5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeorder5ActionPerformed
+    private void existqtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_existqtyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_removeorder5ActionPerformed
+    }//GEN-LAST:event_existqtyActionPerformed
 
-    private void removeorder6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeorder6ActionPerformed
+    private void dropcashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dropcashActionPerformed
+
+        if (jTable1.getSelectedRow() == -1) {
+                dropdb();
+                cash.setText("");
+                change.setText("0.00");
+                vat12.setText("0.00");
+                amountdue.setText("0.00");
+                totalamount.setText("0.00");
+                transAction.setText("Transaction Not Available");
+                tablepanel.setVisible(false);
+                jDialog1.setVisible(true);
+                JOptionPane.showMessageDialog(rootPane, "click cashout to end your transaction account");
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Finish your transaction first");
+        }
         // TODO add your handling code here:
-    }//GEN-LAST:event_removeorder6ActionPerformed
+    }//GEN-LAST:event_dropcashActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1621,6 +1708,10 @@ public class KBGS_POS extends javax.swing.JFrame {
     private javax.swing.JLabel change;
     private javax.swing.JMenu date;
     private javax.swing.JLabel desc;
+    private javax.swing.JButton dropcash;
+    private javax.swing.JButton existID;
+    private javax.swing.JButton existProd;
+    private javax.swing.JButton existqty;
     private javax.swing.JMenuItem home;
     private javax.swing.JLabel itemtype;
     private javax.swing.JDialog jDialog1;
@@ -1677,15 +1768,11 @@ public class KBGS_POS extends javax.swing.JFrame {
     private javax.swing.JLabel price;
     private javax.swing.JSpinner qty;
     private javax.swing.JButton removeorder;
-    private javax.swing.JButton removeorder2;
-    private javax.swing.JButton removeorder3;
-    private javax.swing.JButton removeorder4;
-    private javax.swing.JButton removeorder5;
-    private javax.swing.JButton removeorder6;
     private javax.swing.JButton searchProd;
     private javax.swing.JPanel tablepanel;
     private javax.swing.JMenu time;
     private javax.swing.JLabel totalamount;
+    private javax.swing.JButton transAction;
     private javax.swing.JLabel userid;
     private javax.swing.JLabel vat12;
     // End of variables declaration//GEN-END:variables
